@@ -20,7 +20,7 @@ export class AuthService {
     return this.http.get<CurrentUserInterface>(url);
   }
 
-  setCurrentUser(currentUser: CurrentUserInterface):void {
+  setCurrentUser(currentUser: CurrentUserInterface | null):void {
     this.currentUser$.next(currentUser);
   }
 }
