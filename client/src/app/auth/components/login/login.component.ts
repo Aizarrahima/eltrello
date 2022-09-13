@@ -3,18 +3,17 @@ import { Component } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { AuthService } from "../../services/auth.service";
-import { RegisterRequestInterface } from "../../types/registerRequest.interface";
+import { LoginRequestInterface } from "../../types/loginRequest.interface";
 
 @Component({
-  selector: "auth-register",
-  templateUrl: "./register.component.html",
+  selector: "auth-login",
+  templateUrl: "./login.component.html",
 })
 
-export class RegisterComponent {
+export class LoginComponent {
   errorMessage: string | null = null;
   form = this.fb.group({
     email: ['', Validators.required],
-    username: ['', Validators.required],
     password: ['', Validators.required],
   })
 
@@ -25,17 +24,17 @@ export class RegisterComponent {
   ) { }
 
   onSubmit(): void {
-    this.authService.register(this.form.value as RegisterRequestInterface).subscribe({
+    this.authService.login(this.form.value as LoginRequestInterface).subscribe({
       next: (currentUser) => {
         console.log('currentUser', currentUser);
         this.authService.setToken(currentUser);
         this.authService.setCurrentUser(currentUser);
         this.errorMessage = null;
-        this.router.navigateByUrl("/login");
+        this.router.navigateByUrl("/");
       },
       error: (err: HttpErrorResponse) => {
         console.log('err', err.error);
-        this.errorMessage = err.error.join(", ");
+        this.errorMessage = err.error.emailOrPassword;
       }
     })
   }

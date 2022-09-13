@@ -7,7 +7,7 @@
     />
   </a>
   <div class="form-container">
-    <div class="login-header">Register to Trello</div>
+    <div class="login-header">Login to Trello</div>
     <div class="errors" nglf="errorMessage">{{errorMessage}}</div>
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <input
@@ -17,20 +17,15 @@
         class="login-input"
       />
       <input
-        formControlName="username"
-        placeholder="Username"
-        class="login-input"
-      />
-      <input
         formControlName="password"
         type="password"
         placeholder="Password"
         class="login-input"
       />
-      <button type="submit" class="login-submit-button">Register</button>
+      <button type="submit" class="login-submit-button">Sign in</button>
     </form>
     <div class="bottom-form-links">
-      <a routerLink="/login" class="register-link">Sign in</a>
+      <a routerLink="/register" class="register-link">Sign up for an account</a>
     </div>
   </div>
 </div>
