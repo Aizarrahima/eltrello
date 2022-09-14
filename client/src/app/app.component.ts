@@ -18,5 +18,14 @@ export class AppComponent implements OnInit {
         this.authService.setCurrentUser(null);
       },
     });
+
+    // just for testing
+    // this.authService.currentUser$.subscribe((res) => {
+    //   console.log("res", res);
+    // });
+
+    // this.authService.isLogged$.subscribe((isLoggedIn) => {
+    //   console.log("isLoggedIn", isLoggedIn);
+    // });
   }
 }
