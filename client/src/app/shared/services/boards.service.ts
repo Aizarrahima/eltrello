@@ -5,7 +5,7 @@ import { environment } from "src/environments/environment";
 import { BoardInterface } from "../types/board.interface";
 
 @Injectable()
-export class BoardService {
+export class BoardsService {
   constructor(private http: HttpClient) {
 
   }
@@ -13,6 +13,11 @@ export class BoardService {
   getBoards(): Observable<BoardInterface[]> {
     const url = environment.apiUrl + "/boards";
     return this.http.get<BoardInterface[]>(url);
+  }
+
+  getBoard(boardId: string): Observable<BoardInterface> {
+    const url = `${environment.apiUrl}/boards/${boardId}`;
+    return this.http.get<BoardInterface>(url);
   }
 
   createBoard(title: string): Observable<BoardInterface>{
