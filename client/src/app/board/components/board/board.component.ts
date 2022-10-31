@@ -97,8 +97,14 @@ export class BoardComponent implements OnInit {
 
     this.socketService
       .listen<BoardInterface>(SocketEventsEnum.boardsUpdateSuccess)
-      .subscribe((updateBoard) => {
-        this.boardService.updateBoard(updateBoard);
+      .subscribe((updatedBoard) => {
+        this.boardService.updateBoard(updatedBoard);
+      });
+
+    this.socketService
+      .listen<ColumnInterface>(SocketEventsEnum.columnsUpdateSuccess)
+      .subscribe((updatedColumn) => {
+        this.boardService.updateColumn(updatedColumn);
       });
 
     this.socketService
@@ -143,8 +149,14 @@ export class BoardComponent implements OnInit {
     return tasks.filter((task) => task.columnId === columnId);
   }
 
-  updateBoardName(boardName: string): void {
+  updatedBoardName(boardName: string): void {
     this.boardsService.updateBoard(this.boardId, { title: boardName });
+  }
+  
+  updateColumnName(columnName: string, columnId: string): void {
+    this.columnsService.updateColumn(this.boardId, columnId, {
+      title: columnName,
+    });
   }
 
   deleteBoard(): void {

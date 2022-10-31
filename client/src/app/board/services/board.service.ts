@@ -41,12 +41,22 @@ export class BoardService {
     this.tasks$.next(updatedTasks);
   }
 
-  updateBoard(updateBoard: BoardInterface): void {
+  updateBoard(updatedBoard: BoardInterface): void {
     const board = this.board$.getValue()
     if (!board) {
       throw new Error('Board is not initialized');
     }
-    this.board$.next({ ...board, title: updateBoard.title });
+    this.board$.next({ ...board, title: updatedBoard.title });
+  }
+
+  updateColumn(updatedColumn: ColumnInterface): void {
+    const updatedColumns = this.columns$.getValue().map(column => {
+      if (column.id === updatedColumn.id) {
+        return { ...column, title: updatedColumn.title };
+      }
+      return column
+    });
+    this.columns$.next(updatedColumns);
   }
 
   deleteBoard(boardId: string): void {
