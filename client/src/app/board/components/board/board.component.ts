@@ -81,12 +81,18 @@ export class BoardComponent implements OnInit {
       .subscribe((column) => {
         // console.log("column", column);
         this.boardService.addColumn(column);
-      })
+      });
 
     this.socketService
       .listen<TaskInterface>(SocketEventsEnum.tasksCreateSuccess)
       .subscribe((task) => {
         this.boardService.addTask(task);
+      });
+
+    this.socketService
+      .listen<BoardInterface>(SocketEventsEnum.boardsUpdateSuccess)
+      .subscribe((updateBoard) => {
+        this.boardService.updateBoard(updateBoard);
       });
   }
 
@@ -124,10 +130,8 @@ export class BoardComponent implements OnInit {
   getTasksByColumn(columnId: string, tasks: TaskInterface[]): TaskInterface[] {
     return tasks.filter((task) => task.columnId === columnId);
   }
-  // test(): void {
-  //   this.socketService.emit("columns:create", {
-  //     boardId: this.boardId,
-  //     title: "foo",
-  //   })
-  // }
+
+  updateBoardName(boardName: string): void {
+    this.boardsService.updateBoard(this.boardId, { title: boardName });
+  }
 }
