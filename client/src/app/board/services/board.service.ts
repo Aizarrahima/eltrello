@@ -52,6 +52,13 @@ export class BoardService {
   deleteBoard(boardId: string): void {
     this.socketService.emit(SocketEventsEnum.boardsDelete, { boardId });
   }
+
+  deleteColumn(columnId: string): void {
+    const updatedColumns = this.columns$
+      .getValue()
+      .filter((column) => column.id !== columnId);
+    this.columns$.next(updatedColumns);
+  }
 }
 
 // title, description, userId, columnId, boardId
