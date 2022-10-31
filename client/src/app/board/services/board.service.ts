@@ -48,6 +48,10 @@ export class BoardService {
     }
     this.board$.next({ ...board, title: updateBoard.title });
   }
+
+  deleteBoard(boardId: string): void {
+    this.socketService.emit(SocketEventsEnum.boardsDelete, { boardId });
+  }
 }
 
 // title, description, userId, columnId, boardId

@@ -80,6 +80,9 @@ io.use(async (socket: Socket, next) => {
     socket.on(SocketEventsEnum.boardsUpdate, (data) => {
         boardsController.updateBoard(io, socket, data);
     });
+    socket.on(SocketEventsEnum.boardsDelete, (data) => {
+        boardsController.deleteBoard(io, socket, data);
+    });
 });
 
 mongoose.connect("mongodb://localhost:27017/eltrello").then(() => {
