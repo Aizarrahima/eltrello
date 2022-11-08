@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuardService } from '../auth/services/authGuard.service';
 import { InlineFormModule } from '../shared/modules/inlineForm/inlineForm.module';
@@ -30,6 +31,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     TopbarModule,
     InlineFormModule,
+    ReactiveFormsModule,
   ],
   declarations: [BoardComponent, TaskModalComponent],
   providers: [BoardService, ColumnsService, TasksService],
