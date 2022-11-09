@@ -83,6 +83,9 @@ io.use(async (socket: Socket, next) => {
     socket.on(SocketEventsEnum.columnsDelete, (data) => {
         columnsController.deleteColumn(io, socket, data);
     });
+    socket.on(SocketEventsEnum.tasksDelete, (data) => {
+        tasksController.deleteTask(io, socket, data);
+    });
     socket.on(SocketEventsEnum.boardsUpdate, (data) => {
         boardsController.updateBoard(io, socket, data);
     });
