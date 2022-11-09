@@ -1,7 +1,8 @@
 import { Component, HostBinding, OnDestroy } from "@angular/core";
 import { FormBuilder } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
-import { combineLatest, filter, Observable, map, Subject, takeUntil } from "rxjs";
+import { combineLatest, filter, Observable, map, Subject, takeUntil, take } from "rxjs";
+import { TasksService } from "src/app/shared/services/tasks.service";
 import { ColumnInterface } from "src/app/shared/types/column.interface";
 import { TaskInterface } from "src/app/shared/types/task.interface";
 import { BoardService } from "../../services/board.service";
@@ -27,6 +28,7 @@ export class TaskModalComponent implements OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private boardService: BoardService,
+    private tasksService: TasksService,
     private fb: FormBuilder,
   ) {
     const taskId = this.route.snapshot.paramMap.get('taskId');
@@ -58,6 +60,16 @@ export class TaskModalComponent implements OnDestroy {
     this.task$.pipe(takeUntil(this.unsubscribe$)).subscribe((task) => {
       this.columnForm.patchValue({ columnId: task.columnId });
     })
+
+    combineLatest([
+      this.task$,
+      this.columnForm.get('columnId')!.valueChanges,
+    ]).pipe(takeUntil(this.unsubscribe$))
+      .subscribe(([task, columnId]) => {
+      if (task.columnId !== columnId) {
+        this.tasksService.updateTask(this.boardId, task.id, { columnId });
+      }
+    });
   }
 
   ngOnDestroy(): void {
@@ -70,10 +82,14 @@ export class TaskModalComponent implements OnDestroy {
   }
 
   updateTaskName(taskName: string): void {
-    console.log('updateTaskName', taskName)
+    this.tasksService.updateTask(this.boardId, this.taskId, {
+      title: taskName,
+    })
   }
 
   updateTaskDescription(taskDescription: string): void {
-    console.log('updateTaskName', taskDescription)
+    this.tasksService.updateTask(this.boardId, this.taskId, {
+      description: taskDescription,
+    })
   }
 }
